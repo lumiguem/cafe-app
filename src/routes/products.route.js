@@ -1,56 +1,31 @@
 const express = require("express");
+const productController = require("./../controllers/products.controller")
 
-const router = express.Router()
+const validationMiddleware = require("./../middlewares/validation.middleware");
+const router = express.Router();
 
-const findProducts = (req, res) =>{
-    res.status(200).json({
-        message: "hello from the get route",
-    });
+router
+.route("/")
+.get(productController.findProducts)
+.post(validationMiddleware.validProduct, productController.createProduct)
 
-};
-
-const createProduct = (req,res) =>{
-    const product= req.body;
-    res.status(201).json({
-        message:"hello from the post route",
-        product,
-    });    
-};
-
-const findProduct = (req, res) => {    
-    const id = req.params.id
-
-    res.status(200).json({
-        message:"hello from the get route with id",
-        id,
-    });
-};
-
-const updateProduct = (req,res) => {
-    const id = req.params.id
-    res.status(200).json({
-        message:"hello from the update route ",
-        id,
-    });
-};
-const deleteProduct = (req, res) => {
-    console.log(req.params)
-    res.status(200).json({
-        ok: true,
-        parametros: req.params,
-    });
-};
-
-
-router.get("/", findProducts);
-router.post("/", createProduct);
-router.get("/:id", findProduct);
-router.patch("/:id", updateProduct);
-router.delete("/:id", deleteProduct);
-
-
-
+router.route("/:id").get(productController.findProduct).patch(productController.updateProduct).delete(productController.deleteProduct)
 
 
 
 module.exports = router;
+
+// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+// router.get("/", productController.findProducts);
+
+// router.post(
+//     "/",
+//     validationMiddleware.validProduct,
+//     productController.createProduct);
+
+// router.get("/:id", productController.findProduct);
+
+// router.patch("/:id", productController.updateProduct);
+
+// router.delete("/:id", productController.deleteProduct);

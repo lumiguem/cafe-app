@@ -1,35 +1,22 @@
 const express = require('express');
+const morgan = require('morgan');
 
 const productRouter = require("./routes/products.route")
 
 const app = express();
 
 app.use(express.json());
+app.use(morgan("dev"))
 
+const getTimeRequest = (req, res, next) =>{
+    const date = new Date();
 
+    req.requestTime = date;
 
-const updateProduct = (req,res) => {
-    const id = req.params.id
-    res.status(200).json({
-        message:"hello from the update route ",
-        id,
-    });
+    next();
 };
 
-const deleteProduct = (req, res) => {
-    console.log(req.params)
-    res.status(200).json({
-        ok: true,
-        parametros: req.params,
-    });
-};
-
-
-
-app.patch("/api/v1/products/:id", updateProduct);
-
-app.delete("/api/v1/products/:id", deleteProduct);
-
+app.use(getTimeRequest);
 
 app.use("/api/v1/products", productRouter);
 
