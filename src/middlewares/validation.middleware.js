@@ -4,7 +4,7 @@ exports.validProduct = (req, res, next) => {
     if (!name) {
         return res.status(400).json({
             status: "error",
-            message: "name is required",
+            message: "the name is required",
         })
     }
     if (!price) {

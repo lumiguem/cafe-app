@@ -9,7 +9,11 @@ router
 .get(productController.findProducts)
 .post(validationMiddleware.validProduct, productController.createProduct)
 
-router.route("/:id").get(productController.findProduct).patch(productController.updateProduct).delete(productController.deleteProduct)
+router
+.route("/:id")
+.get(productController.findProduct)
+.patch(productController.updateProduct)
+.delete(productController.deleteProduct)
 
 
 
